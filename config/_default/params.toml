@@ -1,0 +1,114 @@
+# Meta Data for SEO
+
+## Homepage
+title = "Muhammad Mahad"
+titleSeparator = "-"
+titleAddition = "Muhammad Mahad"
+description = "Muhammad Mahad's personal website"
+
+## Documentation
+# docsVersion = "0.3"
+
+## Open Graph
+images = ["mahad.png"]
+ogLocale = "en_US"
+domainTLD = "mahadmuhammad.github.io"
+titleHome = "Muhammad Mahad"
+
+## Twitter Cards
+twitterSite = "@_mmahad"
+twitterCreator = "@_mmahad"
+
+## JSON-LD
+schemaType = "Person"
+schemaName = "Muhammad Mahad"
+schemaAuthor = "Muhammad Mahad"
+schemaAuthorTwitter = "https://twitter.com/_mmahad"
+schemaAuthorLinkedIn = "https://www.linkedin.com/in/mmahad"
+schemaAuthorGitHub = "https://github.com/mahadmuhammad"
+schemaLocale = "en-US"
+schemaLogo = "mahad.png"
+schemaLogoWidth = 512
+schemaLogoHeight = 512
+schemaImage = "mahad.png"
+schemaImageWidth = 1280
+schemaImageHeight = 640
+schemaTwitter = "https://twitter.com/_mmahad"
+schemaLinkedIn = ""
+schemaGitHub = "https://github.com/mahadmuhammad/mahadmuhammad.github.io"
+schemaSection = "blog"
+
+## Sitelinks Search Box
+siteLinksSearchBox = false
+
+## Chrome Browser
+themeColor = "#fff"
+
+# Images
+quality = 85
+bgColor = "#fff"
+landscapePhotoWidths = [900, 800, 700, 600, 500]
+portraitPhotoWidths = [800, 700, 600, 500]
+lqipWidth = "20x"
+smallLimit = "300"
+
+# Images
+imageResponsive = true
+imageConvertTo = "webp"
+imageImageSizes = ["480","720","1080","1280","1600","2048"]
+singleSize = false
+imageAddClass = "img-fluid lazyload blur-up"
+
+### Image template
+defaultImage = "default-image.png" # put in `./assets/images/`
+fillImage = "1270x740 Center" # normalize image size
+
+# Footer
+# footer = "Mahad <a class=\"text-muted\" href=\"https://www.netlify.com/\">Netlify</a>, <a class=\"text-muted\" href=\"https://gohugo.io/\">Hugo</a>, and <a class=\"text-muted\" href=\"https://getdoks.org/\">Doks</a>"
+footer = "Made by Muhammad Mahad"
+
+# Feed
+copyRight = "Copyright (c) 2023-2024 Muhammad Mahad"
+
+# Alert
+alert = true
+alertDismissable = true
+# alertText = "Introducing the Doks child theme, several DX + UX updates, and more! <a class=\"alert-link stretched-link\" href=\"https://getdoks.org/blog/doks-v0.2/\" target=\"_blank\" rel=\"noopener\">Check out Doks v0.2</a>"
+alertText = "Hi there, I am Mahad,You can contact me on <a class=\"alert-link stretched-link\" href=\"https://github.com/mahadmuhammad/\">GitHub</a>"
+
+# Edit Page
+# repoHost [Github | Gitea | GitLab | Bitbucket | BitbucketServer ] is used for building the edit link based on git hoster
+repoHost = "GitHub"
+#repoHost = "Gitea"
+docsRepo = "https://github.com/MahadMuhammad/mahadmuhammad.github.io"
+docsRepoBranch = "master"
+docsRepoSubPath = ""
+editPage = false
+lastMod = false
+
+[sections]
+  sectionNav = ["docs", "guides"]
+
+[options]
+  lazySizes = true
+  clipBoard = true
+  instantPage = true
+  flexSearch = true
+  searchSectionsShow = []
+  searchSectionsIndex = []
+  darkMode = true
+  bootStrapJs = true
+  breadCrumb = true
+  highLight = true
+  kaTex = true
+  multilingualMode = false
+  docsVersioning = false
+  fullWidth = true
+  navbarSticky = true
+  toTopButton = true
+  scrollSpy = false # experimental; needs Bootstrap >= 5.2.0-beta1
+
+[menu]
+  [menu.section]
+    auto = true
+    collapsibleSidebar = true
