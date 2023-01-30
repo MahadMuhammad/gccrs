@@ -27,6 +27,7 @@
 #include "rust-compile-implitem.h"
 #include "rust-constexpr.h"
 #include "rust-gcc.h"
+#include "rust-tree.h"
 
 #include "fold-const.h"
 #include "realmpfr.h"
@@ -2482,7 +2483,7 @@ CompileExpr::array_copied_expr (Location expr_locus,
 
       tree tmp;
       tree stmts
-	= ctx->get_backend ()->array_initializer (fndecl, init_block,
+	= array_initializer (ctx->get_backend(),fndecl, init_block,
 						  array_type, capacity_expr,
 						  translated_expr, &tmp,
 						  expr_locus);

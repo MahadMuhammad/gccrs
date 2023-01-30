@@ -6154,3 +6154,74 @@ array_string_literal_compatible_p (tree type, tree init)
 }
 
 } // namespace Rust
+
+// Build insns to create an array, initialize all elements of the array to
+// value, and return it
+tree
+array_initializer (Backend * temp,tree fndecl, tree block, tree array_type,
+				tree length, tree value, tree *tmp,
+				Location locus)
+{
+  std::vector<tree> stmts;
+
+  // Temporary array we initialize with the desired value.
+  tree t = NULL_TREE;
+  Bvariable *tmp_array = temp->temporary_variable (fndecl, block, array_type,
+						   NULL_TREE, true, locus, &t);
+  tree arr = tmp_array->get_tree (locus);
+  stmts.push_back (t);
+
+  // Temporary for the array length used for initialization loop guard.
+  Bvariable *tmp_len = temp->temporary_variable (fndecl, block, size_type_node,
+						 length, true, locus, &t);
+  tree len = tmp_len->get_tree (locus);
+  stmts.push_back (t);
+
+  // Temporary variable for pointer used to initialize elements.
+  tree ptr_type = temp->pointer_type (TREE_TYPE (array_type));
+  tree ptr_init
+    = build1_loc (locus.gcc_location (), ADDR_EXPR, ptr_type,
+		  temp->array_index_expression (arr, integer_zero_node, locus));
+  Bvariable *tmp_ptr = temp->temporary_variable (fndecl, block, ptr_type,
+						 ptr_init, false, locus, &t);
+  tree ptr = tmp_ptr->get_tree (locus);
+  stmts.push_back (t);
+
+  // push statement list for the loop
+  std::vector<tree> loop_stmts;
+
+  // Loop exit condition:
+  //   if (length == 0) break;
+  t = temp->comparison_expression (ComparisonOperator::EQUAL, len,
+				   temp->zero_expression (TREE_TYPE (len)),
+				   locus);
+
+  t = temp->exit_expression (t, locus);
+  loop_stmts.push_back (t);
+
+  // Assign value to the current pointer position
+  //   *ptr = value;
+  t = temp->assignment_statement (build_fold_indirect_ref (ptr), value, locus);
+  loop_stmts.push_back (t);
+
+  // Move pointer to next element
+  //   ptr++;
+  tree size = TYPE_SIZE_UNIT (TREE_TYPE (ptr_type));
+  t = build2 (POSTINCREMENT_EXPR, ptr_type, ptr, convert (ptr_type, size));
+  loop_stmts.push_back (t);
+
+  // Decrement loop counter.
+  //   length--;
+  t = build2 (POSTDECREMENT_EXPR, TREE_TYPE (len), len,
+	      convert (TREE_TYPE (len), integer_one_node));
+  loop_stmts.push_back (t);
+
+  // pop statments and finish loop
+  tree loop_body = temp->statement_list (loop_stmts);
+  stmts.push_back (temp->loop_expression (loop_body, locus));
+
+  // Return the temporary in the provided pointer and the statement list which
+  // initializes it.
+  *tmp = tmp_array->get_tree (locus);
+  return temp->statement_list (stmts);
+}

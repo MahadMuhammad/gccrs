@@ -24,6 +24,7 @@
 #include "tree.h"
 #include "cpplib.h"
 #include "splay-tree.h"
+#include "rust-backend.h"
 
 /* Returns true if NODE is a pointer.  */
 #define TYPE_PTR_P(NODE) (TREE_CODE (NODE) == POINTER_TYPE)
@@ -3387,5 +3388,10 @@ fold_non_dependent_init (tree, tsubst_flags_t = tf_warning_or_error,
 } // namespace Compile
 
 } // namespace Rust
+
+tree
+array_initializer (Backend * temp,tree fndecl, tree block, tree array_type,
+				tree length, tree value, tree *tmp,
+				Location locus)
 
 #endif // RUST_TREE

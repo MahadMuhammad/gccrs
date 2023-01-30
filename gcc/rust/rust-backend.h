@@ -278,9 +278,9 @@ public:
 				const std::vector<tree> &vals, Location)
     = 0;
 
-  virtual tree array_initializer (tree, tree, tree, tree, tree, tree *,
-				  Location)
-    = 0;
+  // virtual tree array_initializer (tree, tree, tree, tree, tree, tree *,
+	// 			  Location)
+  //   = 0;
 
   // Return an expression for ARRAY[INDEX] as an l-value.  ARRAY is a valid
   // fixed-length array, not a slice.

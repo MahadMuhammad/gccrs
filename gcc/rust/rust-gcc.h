@@ -195,7 +195,6 @@ public:
   tree array_constructor_expression (tree, const std::vector<unsigned long> &,
 				     const std::vector<tree> &, Location);
 
-  tree array_initializer (tree, tree, tree, tree, tree, tree *, Location);
 
   tree array_index_expression (tree array, tree index, Location);
 
