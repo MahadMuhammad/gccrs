@@ -59,7 +59,7 @@ check_for_basic_integer_type (const std::string &intrinsic_str, Location locus,
   if (!is_basic_integer)
     {
       rust_error_at (
-	locus,
+	locus, ErrorCode("E0093"),
 	"%s intrinsics can only be used with basic integer types (got %qs)",
 	intrinsic_str.c_str (), type->get_name ().c_str ());
     }
@@ -228,7 +228,7 @@ Intrinsics::compile (TyTy::FnType *fntype)
     return it->second (ctx, fntype);
 
   Location locus = ctx->get_mappings ()->lookup_location (fntype->get_ref ());
-  rust_error_at (locus, "unknown builtin intrinsic: %s",
+  rust_error_at (locus, ErrorCode("E0093"),"unknown builtin intrinsic: %s",
 		 fntype->get_identifier ().c_str ());
 
   return error_mark_node;

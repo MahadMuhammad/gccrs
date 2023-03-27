@@ -122,7 +122,7 @@ UnifyRules::emit_type_mismatch () const
   RichLocation r (locus);
   r.add_range (lhs.get_locus ());
   r.add_range (rhs.get_locus ());
-  rust_error_at (r, "expected %<%s%> got %<%s%>",
+  rust_error_at (r, ErrorCode ("E0069"), "expected %<%s%> got %<%s%>",
 		 expected->get_name ().c_str (), expr->get_name ().c_str ());
 }
 

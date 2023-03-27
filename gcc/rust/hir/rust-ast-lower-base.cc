@@ -691,7 +691,7 @@ struct_field_name_exists (std::vector<HIR::StructField> &fields,
 	{
 	  RichLocation r (new_field.get_locus ());
 	  r.add_range (field.get_locus ());
-	  rust_error_at (r, "duplicate field name %qs",
+	  rust_error_at (r, ErrorCode("E0124") ,"duplicate field name %qs",
 			 field.get_field_name ().c_str ());
 	  return true;
 	}
