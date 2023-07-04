@@ -27,13 +27,8 @@ void emit_unexpected_argument_error (Location loc,
 	unsigned long  unexpected_arg_count,
 	unsigned long  expected_arg_count)
 {
-/* 	rust_error_at(loc, ErrorCode("E0061"),
-		"unexpected number of arguments %lu expected %lu",
-		unexpected_arg_count, expected_arg_count); */
-
-
 	rust_error_at(loc, ErrorCode("E0061"),
-		"this function takes %lu argument but %lu arguments were supplied",
+		"this function takes %lu arguments but %lu arguments were supplied",
 		 expected_arg_count,unexpected_arg_count);
 
 	return;
