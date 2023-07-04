@@ -49,10 +49,14 @@ TypeCheckCallExpr::visit (ADTType &type)
 
   if (call.num_params () != variant.num_fields ())
     {
-      rust_error_at (call.get_locus (), ErrorCode("E0061"),
+/*       rust_error_at (call.get_locus (), ErrorCode("E0061"),
 		     "unexpected number of arguments %lu expected %lu",
 		     (unsigned long) call.num_params (),
-		     (unsigned long) variant.num_fields ());
+		     (unsigned long) variant.num_fields ()); */
+	
+	emit_unexpected_argument_error(call.get_locus (),
+	(unsigned long) call.num_params (),
+	(unsigned long) variant.num_fields ());
       return;
     }
 
@@ -86,9 +90,13 @@ TypeCheckCallExpr::visit (ADTType &type)
 
   if (i != call.num_params ())
     {
-      rust_error_at (call.get_locus (), ErrorCode("E0061"),
+/*       rust_error_at (call.get_locus (), ErrorCode("E0061"),
 		     "unexpected number of arguments %lu expected %lu",
-		     (unsigned long) i, (unsigned long) call.num_params ());
+		     (unsigned long) i, (unsigned long) call.num_params ()); */
+
+
+	emit_unexpected_argument_error(call.get_locus (),
+	(unsigned long) i, (unsigned long) call.num_params ());
       return;
     }
 
@@ -104,18 +112,24 @@ TypeCheckCallExpr::visit (FnType &type)
 	{
 	  if (call.num_params () < type.num_params ())
 	    {
-	      rust_error_at (call.get_locus (), ErrorCode("E0061"),
+/* 	      rust_error_at (call.get_locus (), ErrorCode("E0061"),
 			     "unexpected number of arguments %lu expected %lu",
 			     (unsigned long) call.num_params (),
+			     (unsigned long) type.num_params ()); */
+emit_unexpected_argument_error(call.get_locus (),
+(unsigned long) call.num_params (),
 			     (unsigned long) type.num_params ());
 	      return;
 	    }
 	}
       else
 	{
-	  rust_error_at (call.get_locus (), ErrorCode("E0061"),
+/* 	  rust_error_at (call.get_locus (), ErrorCode("E0061"),
 			 "unexpected number of arguments %lu expected %lu",
 			 (unsigned long) call.num_params (),
+			 (unsigned long) type.num_params ()); */
+	emit_unexpected_argument_error(call.get_locus (),
+	(unsigned long) call.num_params (),
 			 (unsigned long) type.num_params ());
 	  return;
 	}
@@ -218,9 +232,11 @@ TypeCheckCallExpr::visit (FnType &type)
 
   if (i < call.num_params ())
     {
-      rust_error_at (call.get_locus (), ErrorCode("E0061"),
+/*       rust_error_at (call.get_locus (), ErrorCode("E0061"),
 		     "unexpected number of arguments %lu expected %lu",
-		     (unsigned long) i, (unsigned long) call.num_params ());
+		     (unsigned long) i, (unsigned long) call.num_params ()); */
+emit_unexpected_argument_error(call.get_locus (),
+(unsigned long) i, (unsigned long) call.num_params ());
       return;
     }
 
@@ -233,9 +249,12 @@ TypeCheckCallExpr::visit (FnPtr &type)
 {
   if (call.num_params () != type.num_params ())
     {
-      rust_error_at (call.get_locus (), ErrorCode("E0061"),
+/*       rust_error_at (call.get_locus (), ErrorCode("E0061"),
 		     "unexpected number of arguments %lu expected %lu",
 		     (unsigned long) call.num_params (),
+		     (unsigned long) type.num_params ()); */
+emit_unexpected_argument_error(call.get_locus (),
+(unsigned long) call.num_params (),
 		     (unsigned long) type.num_params ());
       return;
     }
@@ -268,9 +287,11 @@ TypeCheckCallExpr::visit (FnPtr &type)
 
   if (i != call.num_params ())
     {
-      rust_error_at (call.get_locus (), ErrorCode("E0061"),
+/*       rust_error_at (call.get_locus (), ErrorCode("E0061"),
 		     "unexpected number of arguments %lu expected %lu",
-		     (unsigned long) i, (unsigned long) call.num_params ());
+		     (unsigned long) i, (unsigned long) call.num_params ()); */
+emit_unexpected_argument_error(call.get_locus (),
+(unsigned long) i, (unsigned long) call.num_params ());
       return;
     }
 
@@ -340,9 +361,12 @@ TypeCheckMethodCallExpr::check (FnType &type)
   size_t num_args_to_call = arguments.size () + 1;
   if (num_args_to_call != type.num_params ())
     {
-      rust_error_at (call_locus, ErrorCode("E0061"),
+/*       rust_error_at (call_locus, ErrorCode("E0061"),
 		     "unexpected number of arguments %lu expected %lu",
 		     (unsigned long) num_args_to_call,
+		     (unsigned long) type.num_params ()); */
+emit_unexpected_argument_error(call_locus,
+(unsigned long) num_args_to_call,
 		     (unsigned long) type.num_params ());
       return new ErrorType (type.get_ref ());
     }
@@ -375,9 +399,11 @@ TypeCheckMethodCallExpr::check (FnType &type)
 
   if (i != num_args_to_call)
     {
-      rust_error_at (call_locus, ErrorCode("E0061"),
+/*       rust_error_at (call_locus, ErrorCode("E0061"),
 		     "unexpected number of arguments %lu expected %lu",
-		     (unsigned long) i, (unsigned long) arguments.size ());
+		     (unsigned long) i, (unsigned long) arguments.size ()); */
+emit_unexpected_argument_error(call_locus,
+(unsigned long) i, (unsigned long) arguments.size ());
       return new ErrorType (type.get_ref ());
     }
 
