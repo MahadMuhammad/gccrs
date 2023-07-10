@@ -118,6 +118,12 @@ TypeCheckCallExpr::visit (FnType &type)
     {
       if (type.is_varadic ())
 	{
+	  if (type.get_abi () != ABI::C)
+	    {
+	      rust_error_at (call.get_locus (), ErrorCode ("E0045"),
+			     "C-variadic function must have a compatible "
+			     "calling convention, like %qC or %qcdecl");
+	    }
 	  if (call.num_params () < type.num_params ())
 	    {
 	      emit_unexpected_argument_error (
