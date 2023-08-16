@@ -53,9 +53,14 @@ TypeCheckPattern::visit (HIR::TupleStructPattern &pattern)
   TyTy::BaseType *pattern_ty = TypeCheckExpr::Resolve (&pattern.get_path ());
   if (pattern_ty->get_kind () != TyTy::TypeKind::ADT)
     {
-      rust_error_at (pattern.get_locus (),
-		     "expected tuple struct/variant, found: %s",
-		     pattern_ty->get_name ().c_str ());
+      rich_location rich_locus (line_table, pattern.get_locus ());
+      rich_locus.add_fixit_replace (
+	"a tuple struct with a similar name exists");
+
+      rust_error_at (
+	rich_locus, ErrorCode::E0532,
+	"expected tuple struct or tuple variant, found function %qs",
+	pattern_ty->get_name ().c_str ());
       return;
     }
 
@@ -81,10 +86,11 @@ TypeCheckPattern::visit (HIR::TupleStructPattern &pattern)
     {
       std::string variant_type
 	= TyTy::VariantDef::variant_type_string (variant->get_variant_type ());
-
+printf ("\nThis is line %d of file %s (function %s) \n", __LINE__,
+	      __FILE__, __func__);
       rust_error_at (
-	pattern.get_locus (),
-	"expected tuple struct or tuple variant, found %s variant %<%s::%s%>",
+	pattern.get_locus (), ErrorCode::E0532,
+	"aexpected tuple struct or tuple variant, found %s variant %<%s::%s%>",
 	variant_type.c_str (), adt->get_name ().c_str (),
 	variant->get_identifier ().c_str ());
       return;
@@ -154,9 +160,16 @@ TypeCheckPattern::visit (HIR::StructPattern &pattern)
   TyTy::BaseType *pattern_ty = TypeCheckExpr::Resolve (&pattern.get_path ());
   if (pattern_ty->get_kind () != TyTy::TypeKind::ADT)
     {
-      rust_error_at (pattern.get_locus (),
-		     "expected tuple struct/variant, found: %s",
-		     pattern_ty->get_name ().c_str ());
+      printf ("\nThis is line %d of file %s (function %s) \n", __LINE__,
+	      __FILE__, __func__);
+
+		rich_location rich_locus (line_table, pattern.get_locus ());
+      rich_locus.add_fixit_replace (
+	"a tuple struct with a similar name exists");
+      rust_error_at (
+	pattern.get_locus (), ErrorCode::E0532,
+	"aexpected tuple struct or tuple variant, found function %qs",
+	pattern_ty->get_name ().c_str ());
       return;
     }
 
