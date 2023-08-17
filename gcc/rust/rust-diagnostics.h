@@ -107,6 +107,12 @@ rust_error_at (const rich_location &, const char *fmt, ...)
 extern void
 rust_error_at (const rich_location &, const ErrorCode, const char *fmt, ...)
   RUST_ATTRIBUTE_GCC_DIAG (3, 4);
+extern void
+rust_error_at(rich_location *richloc,const char *fmt, ...)
+  RUST_ATTRIBUTE_GCC_DIAG (2, 3);
+extern void
+rust_error_at(rich_location *richloc, const ErrorCode, const char *fmt, ...)
+  RUST_ATTRIBUTE_GCC_DIAG (3, 4);
 // clang-format on
 
 // These interfaces provide a way for the front end to ask for
@@ -137,6 +143,11 @@ rust_be_error_at (const rich_location &, const std::string &errmsg);
 extern void
 rust_be_error_at (const rich_location &, const ErrorCode,
 		  const std::string &errmsg);
+extern void
+rust_be_error_at (rich_location *richloc, const std::string &errmsg);
+extern void
+rust_be_error_at (rich_location *richloc, const ErrorCode,
+      const std::string &errmsg);
 extern void
 rust_be_warning_at (const location_t, int opt, const std::string &warningmsg);
 extern void
@@ -271,14 +282,14 @@ struct Error
 	    if (richlocus == nullptr)
 	      rust_error_at (locus, errorcode, "%s", message.c_str ());
 	    else
-	      rust_error_at (*richlocus, errorcode, "%s", message.c_str ());
+	      rust_error_at (richlocus, errorcode, "%s", message.c_str ());
 	  }
 	else
 	  {
 	    if (richlocus == nullptr)
 	      rust_error_at (locus, "%s", message.c_str ());
 	    else
-	      rust_error_at (*richlocus, "%s", message.c_str ());
+	      rust_error_at (richlocus, "%s", message.c_str ());
 	  }
 	break;
       case Kind::FatalErr:

@@ -1217,8 +1217,11 @@ Parser<ManagedTokenSource>::parse_outer_attribute ()
 
   if (lexer.peek_token ()->get_id () == INNER_DOC_COMMENT)
     {
+      rich_location rich_locus (line_table, lexer.peek_token ()->get_locus ());
+      printf("rich_locus: %d\n", lexer.peek_token ()->get_locus ());
+      rich_locus.add_fixit_remove();
       Error error (
-	lexer.peek_token ()->get_locus (),
+	&rich_locus, ErrorCode::E0753,
 	"inner doc (%<//!%> or %</*!%>) only allowed at start of item "
 	"and before any outer attribute or doc (%<#[%>, %<///%> or %</**%>)");
       add_error (std::move (error));
@@ -4922,8 +4925,10 @@ Parser<ManagedTokenSource>::parse_trait (AST::Visibility vis,
 
   if (is_auto_trait && !trait_items.empty ())
     {
+      rich_location richloc (line_table, locus);
+      printf("\n The range is %d\n", richloc.get_num_locations ());
       add_error (
-	Error (locus, "associated items are forbidden within auto traits"));
+	Error (&richloc,  ErrorCode::E0380,"associated items are forbidden within auto traits"));
 
       // FIXME: unsure if this should be done at parsing time or not
       for (const auto &item : trait_items)
