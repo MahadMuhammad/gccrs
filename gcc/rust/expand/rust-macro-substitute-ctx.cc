@@ -117,12 +117,16 @@ SubstituteCtx::check_repetition_amount (size_t pattern_start,
 		    {
 		      if (repeat_amount != expected_repetition_amount)
 			{
+				rich_location richloc (line_table, frag_token->get_locus ());
+				std::string richmsg = "expected " + std::to_string (expected_repetition_amount) + " repetitions, got " + std::to_string (repeat_amount);
+				richloc.add_fixit_replace(richmsg.c_str());
+
 			  rust_error_at (
-			    frag_token->get_locus (),
-			    "different amount of matches used in merged "
-			    "repetitions: expected %lu, got %lu",
+			    richloc,
+			    "meta-variable %qs repeats %lu times "
+			    "repetitions: expected , got %lu",frag_token->get_str ().c_str ()
 			    (unsigned long) expected_repetition_amount,
-			    (unsigned long) repeat_amount);
+			    (unsigned long) repeat_amount,);
 			  is_valid = false;
 			}
 		    }
