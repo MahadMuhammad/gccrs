@@ -1,0 +1,16 @@
+#![feature(pattern_types, rustc_attrs)]
+#![feature(core_pattern_type)]
+#![feature(core_pattern_types)]
+#![allow(incomplete_features)]
+
+//! Some practical niche checks.
+
+use std::pat::pattern_type;
+
+type Z = Option<pattern_type!(u32 is 1..)>;
+
+fn main() {
+    let z: Z = Some(unsafe { std::mem::transmute(42_u32) });
+    let _: Option<u32> = unsafe { std::mem::transmute(z) }; // { dg-error ".E0512." "" { target *-*-* } }
+}
+

@@ -1,0 +1,18 @@
+//@ compile-flags: --edition 2024 -Zunstable-options
+//@ run-rustfix
+#![feature(gen_blocks)]
+
+fn moved() -> impl Iterator<Item = u32> {
+    let mut x = "foo".to_string();
+    gen { // { dg-error ".E0373." "" { target *-*-* } }
+        yield 42;
+        if x == "foo" { return }
+        x.clear();
+        for x in 3..6 { yield x }
+    }
+}
+
+fn main() {
+    for _ in moved() {}
+}
+

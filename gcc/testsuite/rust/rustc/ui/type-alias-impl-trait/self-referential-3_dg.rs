@@ -1,0 +1,17 @@
+//@ ignore-compare-mode-next-solver (hangs)
+
+#![feature(type_alias_impl_trait)]
+
+type Bar<'a, 'b> = impl PartialEq<Bar<'a, 'b>> + std::fmt::Debug;
+
+fn bar<'a, 'b>(i: &'a i32) -> Bar<'a, 'b> {
+// { dg-error ".E0277." "" { target *-*-* } .-1 }
+    i
+}
+
+fn main() {
+    let meh = 42;
+    let muh = 42;
+    assert_eq!(bar(&meh), bar(&muh));
+}
+

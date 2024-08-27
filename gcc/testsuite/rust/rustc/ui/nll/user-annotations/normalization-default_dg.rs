@@ -1,0 +1,23 @@
+//@ check-fail
+
+trait Trait { type Assoc; }
+impl<'a> Trait for &'a () { type Assoc = &'a (); }
+
+struct MyTuple<T, U = <&'static () as Trait>::Assoc>(T, U);
+fn test_tuple(x: &(), y: &()) {
+    MyTuple::<_>((), x);
+// { dg-error "" "" { target *-*-* } .-1 }
+    let _: MyTuple::<_> = MyTuple((), y);
+// { dg-error "" "" { target *-*-* } .-1 }
+}
+
+struct MyStruct<T, U = <&'static () as Trait>::Assoc> { val: (T, U), }
+fn test_struct(x: &(), y: &()) {
+    MyStruct::<_> { val: ((), x) };
+// { dg-error "" "" { target *-*-* } .-1 }
+    let _: MyStruct::<_> = MyStruct { val: ((), y) };
+// { dg-error "" "" { target *-*-* } .-1 }
+}
+
+fn main() {}
+

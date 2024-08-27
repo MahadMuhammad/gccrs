@@ -1,0 +1,15 @@
+//@ compile-flags: -Zno-analysis
+
+use std::pat::pattern_type;
+
+type NonNullU32 = pattern_type!(u32 is 1..);
+// { dg-error ".E0658." "" { target *-*-* } .-1 }
+type Percent = pattern_type!(u32 is 0..=100);
+// { dg-error ".E0658." "" { target *-*-* } .-1 }
+type Negative = pattern_type!(i32 is ..=0);
+// { dg-error ".E0658." "" { target *-*-* } .-1 }
+type Positive = pattern_type!(i32 is 0..);
+// { dg-error ".E0658." "" { target *-*-* } .-1 }
+type Always = pattern_type!(Option<u32> is Some(_));
+// { dg-error ".E0658." "" { target *-*-* } .-1 }
+

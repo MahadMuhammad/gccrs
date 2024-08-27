@@ -1,0 +1,11 @@
+//@ only-x86_64
+
+use std::arch::asm;
+
+fn main() {
+    unsafe {
+        asm!("", options(may_unwind));
+// { dg-error ".E0658." "" { target *-*-* } .-1 }
+    }
+}
+

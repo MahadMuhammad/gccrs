@@ -1,0 +1,8 @@
+//@ revisions: normal expanded
+//@[expanded] check-pass
+//@[expanded]compile-flags: -Zunpretty=expanded
+
+extern "路濫狼á́́" fn foo() {} // { dg-error "" "" { target *-*-* } }
+
+fn main() { }
+

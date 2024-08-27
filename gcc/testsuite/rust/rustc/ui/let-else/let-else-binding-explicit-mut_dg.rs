@@ -1,0 +1,21 @@
+// from rfc2005 test suite
+
+
+
+// Verify the binding mode shifts - only when no `&` are auto-dereferenced is the
+// final default binding mode mutable.
+
+fn main() {
+    let Some(n) = &&Some(5i32) else { return };
+    *n += 1; // { dg-error ".E0594." "" { target *-*-* } }
+    let _ = n;
+
+    let Some(n) = &mut &Some(5i32) else { return };
+    *n += 1; // { dg-error ".E0594." "" { target *-*-* } }
+    let _ = n;
+
+    let Some(n) = &&mut Some(5i32) else { return };
+    *n += 1; // { dg-error ".E0594." "" { target *-*-* } }
+    let _ = n;
+}
+

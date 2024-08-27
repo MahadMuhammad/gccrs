@@ -1,0 +1,22 @@
+//@ check-pass
+
+use std::ops::Deref;
+
+trait Bar<T> {}
+
+trait Foo: Bar<i32> {
+    fn as_dyn_bar_u32<'a>(&self) -> &(dyn Bar<u32> + 'a);
+}
+
+impl<'a> Deref for dyn Foo + 'a {
+// { dg-warning "" "" { target *-*-* } .-1 }
+// { dg-warning "" "" { target *-*-* } .-2 }
+    type Target = dyn Bar<u32> + 'a;
+
+    fn deref(&self) -> &Self::Target {
+        self.as_dyn_bar_u32()
+    }
+}
+
+fn main() {}
+

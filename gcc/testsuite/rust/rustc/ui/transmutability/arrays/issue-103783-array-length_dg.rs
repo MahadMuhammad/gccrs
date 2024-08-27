@@ -1,0 +1,23 @@
+#![crate_type = "lib"]
+#![feature(transmutability)]
+#![allow(dead_code)]
+
+mod assert {
+    use std::mem::{Assume, BikeshedIntrinsicFrom};
+
+    pub fn is_maybe_transmutable<Src, Dst>()
+    where
+        Dst: BikeshedIntrinsicFrom<
+            Src,
+            { Assume { alignment: true, lifetimes: true, safety: true, validity: true } },
+        >,
+    {
+    }
+}
+
+fn test() {
+    type NaughtyLenArray = [u32; 3.14159]; // { dg-error ".E0308." "" { target *-*-* } }
+    type JustUnit = ();
+    assert::is_maybe_transmutable::<JustUnit, NaughtyLenArray>();
+}
+

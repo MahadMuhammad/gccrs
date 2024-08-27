@@ -1,0 +1,10 @@
+trait Foo {}
+impl<T> Foo for T {}
+
+fn main() {
+    let array = [(); { loop {} }]; // { dg-error "" "" { target *-*-* } }
+
+    let tup = (7,);
+    let x: &dyn Foo = &tup.0;
+}
+

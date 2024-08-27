@@ -1,0 +1,17 @@
+#[issue_100199::struct_with_bound] // { dg-error ".E0405." "" { target *-*-* } }
+struct Foo {}
+// The above must be on the first line so that it's span points to pos 0.
+// This used to trigger an ICE because the diagnostic emitter would get
+// an unexpected dummy span (lo == 0 == hi) while attempting to print a
+// suggestion.
+
+//@ aux-build: issue-100199.rs
+
+extern crate issue_100199;
+
+mod traits {
+    pub trait MyTrait {}
+}
+
+fn main() {}
+

@@ -1,0 +1,14 @@
+#![feature(macro_metavar_expr_concat)]
+
+macro_rules! join {
+    ($lhs:ident, $rhs:ident) => {
+        ${concat($lhs, $rhs)}
+// { dg-error ".E0425." "" { target *-*-* } .-1 }
+    };
+}
+
+fn main() {
+    let abcdef = 1;
+    let _another = join!(abc, def);
+}
+

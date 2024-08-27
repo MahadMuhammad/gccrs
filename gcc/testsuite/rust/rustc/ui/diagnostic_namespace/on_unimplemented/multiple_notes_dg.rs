@@ -1,0 +1,17 @@
+#[diagnostic::on_unimplemented(message = "Foo", label = "Bar", note = "Baz", note = "Boom")]
+trait Foo {}
+
+#[diagnostic::on_unimplemented(message = "Bar", label = "Foo", note = "Baz")]
+#[diagnostic::on_unimplemented(note = "Baz2")]
+trait Bar {}
+
+fn takes_foo(_: impl Foo) {}
+fn takes_bar(_: impl Bar) {}
+
+fn main() {
+    takes_foo(());
+// { dg-error ".E0277." "" { target *-*-* } .-1 }
+    takes_bar(());
+// { dg-error ".E0277." "" { target *-*-* } .-1 }
+}
+
