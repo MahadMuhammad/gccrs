@@ -1,0 +1,2 @@
+//@ compile-flags: --print yyyy
+

@@ -1,0 +1,14 @@
+//@ compile-flags: -Zverbose-internals
+
+#![feature(coroutines, coroutine_trait, stmt_expr_attributes)]
+
+fn main() {
+    let x = "Type mismatch test";
+    let coroutine: () = #[coroutine]
+    || {
+// { dg-error ".E0308." "" { target *-*-* } .-1 }
+        yield 1i32;
+        return x;
+    };
+}
+

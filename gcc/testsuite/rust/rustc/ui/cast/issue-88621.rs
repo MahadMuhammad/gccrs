@@ -1,0 +1,12 @@
+#[repr(u8)]
+enum Kind2 {
+    Foo() = 1,
+    Bar{} = 2,
+    Baz = 3,
+}
+
+fn main() {
+    let _ = Kind2::Foo() as u8;
+// { dg-error ".E0605." "" { target *-*-* } .-1 }
+}
+

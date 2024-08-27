@@ -1,0 +1,25 @@
+#![feature(type_alias_impl_trait)]
+
+trait T {
+    type Assoc: Cake;
+}
+
+trait Cake: std::fmt::Display {
+    fn cake() -> Self;
+}
+
+type Foo = impl T;
+
+fn foo() -> impl T {
+// { dg-error ".E0277." "" { target *-*-* } .-1 }
+    panic!()
+}
+
+fn a() -> Foo {
+    foo()
+}
+
+fn main() {
+    println!("{}", <Foo as T>::Assoc::cake());
+}
+

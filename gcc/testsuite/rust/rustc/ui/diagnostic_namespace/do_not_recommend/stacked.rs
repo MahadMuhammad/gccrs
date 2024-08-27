@@ -1,0 +1,22 @@
+//@ revisions: current next
+//@ ignore-compare-mode-next-solver (explicit revisions)
+//@[next] compile-flags: -Znext-solver
+
+#![feature(do_not_recommend)]
+
+trait Root {}
+trait DontRecommend {}
+trait Other {}
+
+#[diagnostic::do_not_recommend]
+impl<T> Root for T where T: DontRecommend {}
+
+impl<T> DontRecommend for T where T: Other {}
+
+fn needs_root<T: Root>() {}
+
+fn main() {
+    needs_root::<()>();
+// { dg-error "" "" { target *-*-* } .-1 }
+}
+

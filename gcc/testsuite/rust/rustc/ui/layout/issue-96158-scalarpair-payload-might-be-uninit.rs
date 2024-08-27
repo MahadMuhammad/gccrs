@@ -1,0 +1,55 @@
+//@ normalize-stderr-test: "pref: Align\([1-8] bytes\)" -> "pref: $$PREF_ALIGN"
+#![crate_type = "lib"]
+#![feature(rustc_attrs)]
+
+use std::mem::MaybeUninit;
+
+enum HasNiche {
+    A,
+    B,
+    C,
+}
+
+// This should result in ScalarPair(Initialized, Union),
+// since the u8 payload will be uninit for `None`.
+#[rustc_layout(debug)]
+pub enum MissingPayloadField { // { dg-error "" "" { target *-*-* } }
+    Some(u8),
+    None
+}
+
+// This should result in ScalarPair(Initialized, Initialized),
+// since the u8 field is present in all variants,
+// and hence will always be initialized.
+#[rustc_layout(debug)]
+pub enum CommonPayloadField { // { dg-error "" "" { target *-*-* } }
+    A(u8),
+    B(u8),
+}
+
+// This should result in ScalarPair(Initialized, Union),
+// since, though a u8-sized field is present in all variants, it might be uninit.
+#[rustc_layout(debug)]
+pub enum CommonPayloadFieldIsMaybeUninit { // { dg-error "" "" { target *-*-* } }
+    A(u8),
+    B(MaybeUninit<u8>),
+}
+
+// This should result in ScalarPair(Initialized, Union),
+// since only the niche field (used for the tag) is guaranteed to be initialized.
+#[rustc_layout(debug)]
+pub enum NicheFirst { // { dg-error "" "" { target *-*-* } }
+    A(HasNiche, u8),
+    B,
+    C
+}
+
+// This should result in ScalarPair(Union, Initialized),
+// since only the niche field (used for the tag) is guaranteed to be initialized.
+#[rustc_layout(debug)]
+pub enum NicheSecond { // { dg-error "" "" { target *-*-* } }
+    A(u8, HasNiche),
+    B,
+    C,
+}
+

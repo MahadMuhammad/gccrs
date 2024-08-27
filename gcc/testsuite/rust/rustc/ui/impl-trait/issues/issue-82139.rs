@@ -1,0 +1,20 @@
+#![feature(impl_trait_in_assoc_type)]
+
+trait Trait {
+    type Associated;
+    fn func() -> Self::Associated;
+}
+
+trait Bound {}
+pub struct Struct;
+
+impl Trait for Struct {
+    type Associated = impl Bound;
+
+    fn func() -> Self::Associated {
+        Some(42).map(|_| j) // { dg-error ".E0425." "" { target *-*-* } }
+    }
+}
+
+fn main() {}
+
